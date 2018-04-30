@@ -1,5 +1,6 @@
 package com.noisyninja.quandoopoc.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
@@ -9,14 +10,15 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout.VERTICAL
+import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
 import com.noisyninja.quandoopoc.model.Customer
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import android.content.Intent
-
 
 
 class MainActivity : AppCompatActivity(), IMainActivity {
@@ -91,4 +93,11 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        quandooComponent.database().all.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe { list: List<Customer> ->
+                    quandooComponent.util().logI(DetailActivity::class.java, list.toString())
+                }
+    }
 }

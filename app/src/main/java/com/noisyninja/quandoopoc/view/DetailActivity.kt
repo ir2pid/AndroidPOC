@@ -8,10 +8,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
+import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
 import com.noisyninja.quandoopoc.model.Table
 import com.noisyninja.quandoopoc.view.interfaces.IDetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_detail.*
 
 
@@ -91,4 +94,11 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        quandooComponent.database().allTable.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+                .subscribe { list: List<Table> ->
+                    quandooComponent.util().logI(DetailActivity::class.java, list.toString())
+                }
+    }
 }
