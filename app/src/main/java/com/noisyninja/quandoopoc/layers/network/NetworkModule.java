@@ -2,6 +2,8 @@ package com.noisyninja.quandoopoc.layers.network;
 
 import com.noisyninja.quandoopoc.model.Customer;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -20,13 +22,22 @@ public class NetworkModule {
     }
 
     public void getCustomers(final ICallback iCallback) {
-        getMovieObservable().subscribeWith(getObserver(iCallback));
+        getCustomerObservable().subscribeWith(getObserver(iCallback));
+    }
+    public void getTables(final ICallback iCallback) {
+        getTableObservable().subscribeWith(getObserver(iCallback));
     }
 
-
-    private Observable<Customer> getMovieObservable() {
+    private Observable<List<Customer>> getCustomerObservable() {
         return mHttpClient.getClient().create(IResturant.class)
                 .getCustomers()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    private Observable<List<Boolean>> getTableObservable() {
+        return mHttpClient.getClient().create(IResturant.class)
+                .getTables()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }

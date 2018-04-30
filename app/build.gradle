@@ -40,6 +40,12 @@ android {
     dataBinding {
         enabled = true
     }
+
+    kapt {
+        arguments { //saves room schema json to /schema dir
+            arg("room.schemaLocation", "$projectDir/schemas".toString())
+        }
+    }
 }
 
 dependencies {

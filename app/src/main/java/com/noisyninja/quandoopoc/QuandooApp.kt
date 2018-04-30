@@ -8,18 +8,17 @@ import android.app.Application
 
 class QuandooApp : Application() {
 
-    var triveComponent: QuandooComponent? = null
+    var quandooComponent: QuandooComponent? = null
         private set
 
     override fun onCreate() {
         super.onCreate()
 
-        triveComponent = DaggerQuandooComponent.builder()
+        quandooComponent = DaggerQuandooComponent.builder()
                 .quandooModule(QuandooModule(this))
                 .build()
-
-        triveComponent!!.inject(this)
-        //TriveInjector.getTriveComponent(this).inject(this)
-        //TriveInjector.setApplication(this)
+        //quandooComponent!!.inject(this)
+        QuandooInjector.setApplication(this)
+        QuandooInjector.getQuandooComponent(this).inject(this)
     }
 }

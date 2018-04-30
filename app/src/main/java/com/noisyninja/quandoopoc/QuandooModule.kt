@@ -2,6 +2,7 @@ package com.noisyninja.quandoopoc
 
 import android.content.res.Resources
 import com.noisyninja.quandoopoc.layers.UtilModule
+import com.noisyninja.quandoopoc.layers.database.DataBaseModule
 import com.noisyninja.quandoopoc.layers.network.HttpClient
 import com.noisyninja.quandoopoc.layers.network.NetworkModule
 import dagger.Module
@@ -38,13 +39,13 @@ class QuandooModule(private val application: QuandooApp) {
         return NetworkModule(httpClient)
     }
 
-    /*
+
         @Provides
         @Singleton
-        fun provideCache(utilModule: UtilModule, application: QuandooApp): CacheModule {
-            return CacheModule(utilModule, application)
+        fun provideDataBase(utilModule: UtilModule, application: QuandooApp): DataBaseModule {
+            return DataBaseModule(utilModule, application)
         }
-    */
+
     @Provides
     @Singleton
     fun provideUtil(): UtilModule {

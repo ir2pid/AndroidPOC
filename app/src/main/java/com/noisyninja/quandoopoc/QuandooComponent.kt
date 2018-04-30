@@ -2,6 +2,7 @@ package com.noisyninja.quandoopoc
 
 import android.content.res.Resources
 import com.noisyninja.quandoopoc.layers.UtilModule
+import com.noisyninja.quandoopoc.layers.database.DataBaseModule
 import com.noisyninja.quandoopoc.layers.network.NetworkModule
 import dagger.Component
 import javax.inject.Singleton
@@ -18,6 +19,6 @@ interface QuandooComponent {
     fun inject(quandooApplication: QuandooApp)
     fun resources(): Resources
     fun network(): NetworkModule
-    //fun cache(): CacheModule
+    fun database(): DataBaseModule
     fun util(): UtilModule
 }

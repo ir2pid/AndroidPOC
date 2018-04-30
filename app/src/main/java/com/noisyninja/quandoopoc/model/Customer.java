@@ -1,5 +1,9 @@
 package com.noisyninja.quandoopoc.model;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -7,8 +11,11 @@ import com.google.gson.annotations.SerializedName;
  * Created by sudiptadutta on 27/04/18.
  */
 
+@Entity(tableName = "customers")
 public class Customer extends BaseDTO {
 
+    @PrimaryKey()
+    @ColumnInfo(name = "id")
     @SerializedName("id")
     @Expose
     public int id;

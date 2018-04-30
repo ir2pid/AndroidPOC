@@ -3,6 +3,8 @@ package com.noisyninja.quandoopoc.layers.network;
 import com.noisyninja.quandoopoc.BuildConfig;
 import com.noisyninja.quandoopoc.model.Customer;
 
+import java.util.List;
+
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 
@@ -14,7 +16,10 @@ import retrofit2.http.GET;
 public interface IResturant {
 
     @GET(BuildConfig.CUSTOMER_URI)
-    Observable<Customer> getCustomers();
+    Observable<List<Customer>> getCustomers();
+
+    @GET(BuildConfig.TABLE_URI)
+    Observable<List<Boolean>> getTables();
 
 /*
     @GET("movie/top_rated")
