@@ -1,10 +1,11 @@
-package com.noisyninja.quandoopoc.view
+package com.noisyninja.quandoopoc.view.main
 
 import android.content.Intent
 import com.noisyninja.quandoopoc.QuandooInjector.quandooApplication
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.layers.network.ICallback
 import com.noisyninja.quandoopoc.model.Customer
+import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
 import java.io.BufferedReader

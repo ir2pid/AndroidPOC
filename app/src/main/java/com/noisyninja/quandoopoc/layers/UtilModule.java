@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.google.gson.GsonBuilder;
 import com.noisyninja.quandoopoc.BuildConfig;
@@ -55,6 +56,11 @@ public class UtilModule {
         if (BuildConfig.DEBUG) {
             Log.i(clazz.getSimpleName(), text);
         }
+    }
+
+    public void toast(Context context, String string) {
+        Toast.makeText(context, string,
+                Toast.LENGTH_SHORT).show();
     }
 
     public String toJson(Object object) {

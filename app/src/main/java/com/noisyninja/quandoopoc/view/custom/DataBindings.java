@@ -1,4 +1,4 @@
-package com.noisyninja.quandoopoc.view;
+package com.noisyninja.quandoopoc.view.custom;
 
 import android.databinding.BindingAdapter;
 import android.view.View;

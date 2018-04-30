@@ -30,13 +30,13 @@
                 android:layout_height="wrap_content"
                 android:text="@{Integer.toString(results.customerID)}" />
 
-            <com.noisyninja.quandoopoc.view.IconTextView
+            <com.noisyninja.quandoopoc.view.custom.IconTextView
                 android:id="@+id/grid_text"
                 android:layout_width="@dimen/image_size"
                 android:layout_height="@dimen/image_size"
                 android:layout_marginTop="@dimen/text_margin"
                 android:background="@drawable/border"
-                android:textSize="@dimen/text_size"
+                android:textSize="@dimen/text_size2"
                 app:isOccupied="@{results.occupied}" />
         </LinearLayout>
     </android.support.v7.widget.CardView>

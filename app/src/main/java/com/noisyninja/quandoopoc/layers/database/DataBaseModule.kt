@@ -116,7 +116,24 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
     }
 
     override fun insertTable(table: Table?) {
-        Completable.fromAction { mDataBase.databaseDao().insertTable(table) } //non verbose short hand
+
+        Completable.fromAction(object : Action {
+            @Throws(Exception::class)
+            override fun run() {
+                mDataBase.databaseDao().insertTable(table)
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(object : CompletableObserver {
+            override fun onSubscribe(d: Disposable) {}
+
+            override fun onComplete() {
+                mUtilModule.logI(DataBaseModule::class.java, "insert done")
+            }
+
+            override fun onError(e: Throwable) {
+                mUtilModule.logI(DataBaseModule::class.java, "insert error")
+            }
+        })
     }
 
     override fun deleteTable(table: Table?) {
@@ -124,8 +141,24 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
 
     }
 
-    override fun insertAllTable(tableList: MutableList<Table>?) {
-        Completable.fromAction { mDataBase.databaseDao().insertAllTable(tableList) } //non verbose short han
+    override fun insertAllTable(tableList: List<Table>?) {
+        Completable.fromAction(object : Action {
+            @Throws(Exception::class)
+            override fun run() {
+                mDataBase.databaseDao().insertAllTable(tableList)
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io()).subscribe(object : CompletableObserver {
+            override fun onSubscribe(d: Disposable) {}
+
+            override fun onComplete() {
+                mUtilModule.logI(DataBaseModule::class.java, "insert done")
+            }
+
+            override fun onError(e: Throwable) {
+                mUtilModule.logI(DataBaseModule::class.java, "insert error")
+            }
+        })
     }
 
 }

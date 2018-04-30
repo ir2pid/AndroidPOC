@@ -1,4 +1,4 @@
-package com.noisyninja.quandoopoc.view;
+package com.noisyninja.quandoopoc.view.main;
 
 import android.databinding.DataBindingUtil;
 import android.support.annotation.NonNull;

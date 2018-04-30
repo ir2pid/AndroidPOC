@@ -5,6 +5,9 @@
     <string name="customer_thumbnail">customer thumbnail</string>userId
     <string name="userId">userId: %$1s</string>
     <string name="bookmark">&#xf25d;</string>
+    <string name="done">&#xf058;</string>
+    <string name="done_text">Done.</string>
     <string name="unbookmark">&#xf25d;</string>
     <string name="user">&#xf007;</string>
+    <string name="error_book">"already booked from server, or another reservation"</string>
 </resources>

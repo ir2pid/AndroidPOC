@@ -1,4 +1,4 @@
-package com.noisyninja.quandoopoc.view
+package com.noisyninja.quandoopoc.view.main
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,6 +13,7 @@ import android.widget.LinearLayout.VERTICAL
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
 import com.noisyninja.quandoopoc.model.Customer
+import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -32,7 +33,6 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         setSupportActionBar(toolbar)
         mIMainPresenter = MainPresenter(this)
         setupList()
-        mIMainPresenter.getCustomers()
     }
 
     //region UI
@@ -95,6 +95,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
 
     override fun onResume() {
         super.onResume()
+        mIMainPresenter.getCustomers()
         quandooComponent.database().all.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe { list: List<Customer> ->
                     quandooComponent.util().logI(DetailActivity::class.java, list.toString())

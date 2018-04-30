@@ -1,11 +1,11 @@
-package com.noisyninja.quandoopoc.view
+package com.noisyninja.quandoopoc.view.detail
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.LinearLayout
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
@@ -29,7 +29,7 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
         val customerID = intent.getIntExtra("customerID", 0)
 
         mIDetailPresenter = DetailPresenter(this, customerID)
-        mIDetailPresenter.getTables()
+
         setupUI()
     }
 
@@ -48,14 +48,18 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
             for (b in result) {
                 mResultList.add(Table(b, -1))
             }
-
+            quandooComponent.database().insertAllTable(mResultList)
             //recyclerListDetail.adapter = DetailAdapter(this, mResultList, mIDetailPresenter)
-            recyclerListDetail.post({
-                val adapter = recyclerListDetail.adapter as DetailAdapter
-                adapter.notifyDataSetChanged()
-            })
-            handleShowError(false, null)
+            updateTables()
         }
+    }
+
+    private fun updateTables() {
+        recyclerListDetail.post({
+            val adapter = recyclerListDetail.adapter as DetailAdapter
+            adapter.notifyDataSetChanged()
+        })
+        handleShowError(false, null)
     }
 
     override fun refresh() {
@@ -76,29 +80,26 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-
-        return when (item.itemId) {
-            R.id.action_settings ->
-                return true
-            else -> super.onOptionsItemSelected(item)
-        }
+    public fun done(view: View) {
+        quandooComponent.util().logI(DetailActivity::class.java, "done")
+        val intent = Intent()
+        setResult(Activity.RESULT_OK, intent)
+        finish()
     }
 
     override fun onResume() {
         super.onResume()
         quandooComponent.database().allTable.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
                 .subscribe { list: List<Table> ->
-                    quandooComponent.util().logI(DetailActivity::class.java, list.toString())
+                    if (list.isEmpty()) {//call only once
+                        mIDetailPresenter.getTables()
+                        quandooComponent.util().logI(DetailActivity::class.java, "web" + list.toString())
+                    } else {
+                        mResultList.clear()
+                        mResultList.addAll(list)
+                        updateTables()
+                        quandooComponent.util().logI(DetailActivity::class.java, "local" + list.toString())
+                    }
                 }
     }
 }
