@@ -1,8 +1,8 @@
 package com.noisyninja.quandoopoc.view.main
 
 import android.content.Intent
+import com.noisyninja.quandoopoc.QuandooComponent
 import com.noisyninja.quandoopoc.QuandooInjector.quandooApplication
-import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.layers.network.ICallback
 import com.noisyninja.quandoopoc.model.Customer
 import com.noisyninja.quandoopoc.view.detail.DetailActivity
@@ -14,10 +14,10 @@ import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
  * Created by sudiptadutta on 28/04/18.
  */
 
-public class MainPresenter internal constructor(internal var iMainActivity: IMainActivity) : IMainPresenter, ICallback<List<Customer>> {
+public class MainPresenter internal constructor(private val iMainActivity: IMainActivity, private val quandooComponent: QuandooComponent?) : IMainPresenter, ICallback<List<Customer>> {
 
     override fun getCustomers() {
-        quandooComponent.network().getCustomers(this)
+        quandooComponent?.network()?.getCustomers(this)
     }
 
     override fun openDetail(id: Int) {
@@ -31,16 +31,16 @@ public class MainPresenter internal constructor(internal var iMainActivity: IMai
     override fun onSuccess(result: List<Customer>?) {
         if (result == null) {
             //quandooComponent.util().logI(MainPresenter::class.java, "null response")
-            iMainActivity.setCustomers(null)
+            iMainActivity?.setCustomers(null)
         } else {
             //quandooComponent.util().logI(MainPresenter::class.java, "got response")
-            iMainActivity.setCustomers(ArrayList(result))
-            quandooComponent.database().insertAll(result)
+            iMainActivity?.setCustomers(ArrayList(result))
+            quandooComponent?.database()?.insertAll(result)
         }
     }
 
     override fun onError(t: Throwable) {
-        quandooComponent.database().all.subscribe { list: List<Customer> ->
+        quandooComponent?.database()?.all?.subscribe { list: List<Customer> ->
             if (list.isEmpty()) {
                 //quandooComponent.util().logI(MainPresenter::class.java, "no local cache")
                 iMainActivity.setCustomers(null)

@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-        mIMainPresenter = MainPresenter(this)
+        mIMainPresenter = MainPresenter(this, quandooComponent)
         setupList()
     }
 

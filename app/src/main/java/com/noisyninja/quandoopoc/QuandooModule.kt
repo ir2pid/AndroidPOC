@@ -19,7 +19,9 @@ class QuandooModule(private val application: QuandooApp) {
 
     @Provides
     @Singleton
-    fun provideApplication() = application
+    fun provideApplication(): QuandooApp {
+        return application
+    }
 
     @Provides
     @Singleton

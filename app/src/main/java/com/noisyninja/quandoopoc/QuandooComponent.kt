@@ -17,6 +17,7 @@ import javax.inject.Singleton
 interface QuandooComponent {
 
     fun inject(quandooApplication: QuandooApp)
+    fun app():QuandooApp
     fun resources(): Resources
     fun network(): NetworkModule
     fun database(): DataBaseModule

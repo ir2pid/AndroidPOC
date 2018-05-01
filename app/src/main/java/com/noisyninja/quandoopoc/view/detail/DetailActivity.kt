@@ -31,7 +31,7 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
         setContentView(R.layout.activity_detail)
         val customerID = intent.getIntExtra("customerID", 0)
 
-        mIDetailPresenter = DetailPresenter(this, customerID)
+        mIDetailPresenter = DetailPresenter(this, quandooComponent, customerID)
 
         setupUI()
 
