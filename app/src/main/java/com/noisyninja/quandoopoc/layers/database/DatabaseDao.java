@@ -37,7 +37,7 @@ public interface DatabaseDao {
     void insertAll(List<Customer> customers);
 
     @Query("SELECT * FROM tables")
-    Flowable<List<Table>> getAllTable();
+    Single<List<Table>> getAllTable();
 
     @Query("SELECT * FROM tables where customerID LIKE  :customerID")
     Flowable<List<Table>> findTablesByCustomerID(int customerID);

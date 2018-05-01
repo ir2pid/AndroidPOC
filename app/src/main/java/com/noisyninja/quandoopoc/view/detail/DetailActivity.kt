@@ -50,10 +50,7 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
         mResultList.clear()
         if (result != null) {
             mResultList.addAll(result)
-            recyclerListDetail.post({
-                val adapter = recyclerListDetail.adapter as DetailAdapter
-                adapter.notifyDataSetChanged()
-            })
+            refresh()
             handleShowError(false, null)
         } else {
             handleShowError(true, Exception(quandooComponent.resources().getString(R.string.error_net)))
@@ -62,7 +59,10 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
 
     override fun refresh() {
         quandooComponent.util().logI(DetailActivity::class.java, "refresh tables")
-        recyclerListDetail.adapter.notifyDataSetChanged()
+        runOnUiThread {
+            val adapter = recyclerListDetail.adapter as DetailAdapter
+            adapter.notifyDataSetChanged()
+        }
     }
 
     /**
@@ -92,7 +92,7 @@ class DetailActivity : AppCompatActivity(), IDetailActivity {
         super.onResume()
         mReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                runOnUiThread { refresh() }
+                mIDetailPresenter.getTables()
             }
         }
         registerReceiver(this.mReceiver, IntentFilter(BuildConfig.APPLICATION_ID))

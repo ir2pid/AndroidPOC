@@ -7,6 +7,7 @@ import com.noisyninja.quandoopoc.layers.network.ICallback
 import com.noisyninja.quandoopoc.model.Table
 import com.noisyninja.quandoopoc.view.interfaces.IDetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailPresenter
+import io.reactivex.schedulers.Schedulers
 
 /**
  * Created by sudiptadutta on 28/04/18.
@@ -30,7 +31,7 @@ class DetailPresenter internal constructor(private val iDetailActivity: IDetailA
 
     override fun getTables() {
 
-        quandooComponent.database().allTable
+        quandooComponent.database().allTable.subscribeOn(Schedulers.io())
                 .subscribe { list: List<Table> ->
                     if (list.isEmpty()) {//call only once
                         quandooComponent.network().getTables(this)

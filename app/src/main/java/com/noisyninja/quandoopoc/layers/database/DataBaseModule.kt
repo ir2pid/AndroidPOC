@@ -87,6 +87,7 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
         Completable.fromAction(object : Action {
             @Throws(Exception::class)
             override fun run() {
+                mUtilModule.logI(DataBaseModule::class.java, "inserting")
                 mDataBase.databaseDao().insertAll(customers)
             }
         }).observeOn(AndroidSchedulers.mainThread())
@@ -103,7 +104,7 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
         })
     }
 
-    override fun getAllTable(): Flowable<MutableList<Table>> {
+    override fun getAllTable(): Single<MutableList<Table>> {
         return mDataBase.databaseDao().allTable
     }
 
@@ -141,9 +142,11 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
     }
 
     override fun insertAllTable(tableList: List<Table>?) {
+        mUtilModule.logI(DataBaseModule::class.java, "inserting all table")
         Completable.fromAction(object : Action {
             @Throws(Exception::class)
             override fun run() {
+                mUtilModule.logI(DataBaseModule::class.java, "inserting table")
                 mDataBase.databaseDao().insertAllTable(tableList)
             }
         }).observeOn(AndroidSchedulers.mainThread())

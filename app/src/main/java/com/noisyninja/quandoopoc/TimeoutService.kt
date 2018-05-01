@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.IBinder
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.layers.Utils
+import com.noisyninja.quandoopoc.layers.database.DataBaseModule
 import com.noisyninja.quandoopoc.model.Table
 import java.util.*
 
@@ -14,7 +15,9 @@ import java.util.*
  */
 
 class TimeoutService : Service() {
+
     internal lateinit var context: Context
+    private var timer: Timer? = null
 
     override fun onBind(arg0: Intent): IBinder? {
         return null
@@ -23,7 +26,15 @@ class TimeoutService : Service() {
     override fun onCreate() {
         super.onCreate()
         context = this
-        timer.scheduleAtFixedRate(Task(), java.lang.Long.valueOf(BuildConfig.TIMER), java.lang.Long.valueOf(BuildConfig.TIMER)!!)
+        // cancel if already existed
+        if (timer != null) {
+            timer?.cancel()
+        } else {
+            // recreate new
+            timer = Timer()
+        }
+        // schedule task
+        timer?.scheduleAtFixedRate(Task(), 0, BuildConfig.TIMER.toLong())
 
         Utils.logI(TimeoutService::class.java, "Service started ...")
         Utils.logI(TimeoutService::class.java, "Timer started ...")
@@ -31,7 +42,7 @@ class TimeoutService : Service() {
 
     override fun onDestroy() {
         super.onDestroy()
-        timer.cancel()
+        timer?.cancel()
         Utils.logI(TimeoutService::class.java, "Service stopped ...")
         Utils.logI(TimeoutService::class.java, "Timer stopped ...")
     }
@@ -48,19 +59,18 @@ class TimeoutService : Service() {
                         table.customerID = -1
                     }
 
+                    quandooComponent.util().logI(DataBaseModule::class.java, "inserting..")
                     quandooComponent.database().insertAllTable(list)
+
+                    val intent = Intent()
+                    intent.action = BuildConfig.APPLICATION_ID
+                    sendBroadcast(intent)
                 }
             }
 
-            val intent = Intent()
-            intent.action = BuildConfig.APPLICATION_ID
-            sendBroadcast(intent)
         }
     }
 
-    companion object {
-        private val timer = Timer()
-    }
     /*
     private static final Handler toastHandler = new Handler()
     {
