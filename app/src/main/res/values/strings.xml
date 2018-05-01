@@ -9,6 +9,6 @@
     <string name="done_text">Done.</string>
     <string name="unbookmark">&#xf25d;</string>
     <string name="user">&#xf007;</string>
-    <string name="error_book">"already booked from server, or another reservation"</string>error
+    <string name="error_book">"already booked, released by 15 mins"</string>error
     <string name="error_net">"could not conneect"</string>error
 </resources>
