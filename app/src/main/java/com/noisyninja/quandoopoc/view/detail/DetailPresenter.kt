@@ -1,12 +1,13 @@
 package com.noisyninja.quandoopoc.view.detail
 
 import android.view.View
-import com.noisyninja.quandoopoc.QuandooComponent
 import com.noisyninja.quandoopoc.R
+import com.noisyninja.quandoopoc.layers.di.QuandooComponent
 import com.noisyninja.quandoopoc.layers.network.ICallback
 import com.noisyninja.quandoopoc.model.Table
 import com.noisyninja.quandoopoc.view.interfaces.IDetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 /**
@@ -30,12 +31,13 @@ public class DetailPresenter internal constructor(private val iDetailActivity: I
     }
 
     override fun getTables() {
-
-        quandooComponent?.database()?.allTable?.subscribeOn(Schedulers.io())
-                ?.subscribe { list: List<Table> ->
+        quandooComponent?.database()?.allTable?.
+                subscribeOn(Schedulers.io())?.
+                observeOn(AndroidSchedulers.mainThread())?.
+                subscribe { list: List<Table> ->
                     if (list.isEmpty()) {//call only once
-                        quandooComponent?.network()?.getTables(this)
-                        quandooComponent?.util()?.logI(DetailPresenter::class.java, "web call for once" + list.toString())
+                        quandooComponent.network()?.getTables(this)
+                        quandooComponent.util()?.logI(DetailPresenter::class.java, "web call for once" + list.toString())
                     } else {
                         iDetailActivity.setTables(ArrayList(list))
                         quandooComponent.util().logI(DetailPresenter::class.java, "local" + list.toString())
@@ -55,15 +57,18 @@ public class DetailPresenter internal constructor(private val iDetailActivity: I
     }
 
     override fun onError(t: Throwable) {
-        quandooComponent?.database()?.allTable?.subscribe { list: List<Table> ->
-            if (list.isEmpty()) {
-                quandooComponent?.util()?.logI(DetailPresenter::class.java, "no local cache")
-                iDetailActivity.setTables(null)
-            } else {
-                quandooComponent?.util()?.logI(DetailPresenter::class.java, "got local cache")
-                iDetailActivity.setTables(ArrayList(list))
-            }
-        }
+        quandooComponent?.database()?.allTable?.
+                subscribeOn(Schedulers.io())?.
+                observeOn(AndroidSchedulers.mainThread())?.
+                subscribe { list: List<Table> ->
+                    if (list.isEmpty()) {
+                        quandooComponent?.util()?.logI(DetailPresenter::class.java, "no local cache")
+                        iDetailActivity.setTables(null)
+                    } else {
+                        quandooComponent?.util()?.logI(DetailPresenter::class.java, "got local cache")
+                        iDetailActivity.setTables(ArrayList(list))
+                    }
+                }
     }
 
 }

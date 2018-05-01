@@ -1,6 +1,7 @@
-package com.noisyninja.quandoopoc
+package com.noisyninja.quandoopoc.layers.di
 
 import android.content.Context
+import com.noisyninja.quandoopoc.QuandooApp
 
 /**
  * injects QuandooC0mponent to TriveApplication so it can be accessed from all activities

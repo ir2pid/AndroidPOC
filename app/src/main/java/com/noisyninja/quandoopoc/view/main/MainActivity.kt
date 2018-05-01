@@ -10,12 +10,13 @@ import android.view.MenuItem
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.LinearLayout.VERTICAL
-import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
+import com.noisyninja.quandoopoc.layers.di.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.model.Customer
 import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -99,7 +100,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
     override fun onResume() {
         super.onResume()
         mIMainPresenter.getCustomers()
-        quandooComponent.database().all
+        quandooComponent.database().all.observeOn(Schedulers.io())
                 .subscribe { list: List<Customer> ->
                     quandooComponent.util().logI(DetailActivity::class.java, list.toString())
                 }

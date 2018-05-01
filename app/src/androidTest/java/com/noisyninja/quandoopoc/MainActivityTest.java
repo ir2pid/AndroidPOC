@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
 
-import com.noisyninja.quandoopoc.BaseTest;
-import com.noisyninja.quandoopoc.R;
 import com.noisyninja.quandoopoc.view.main.MainActivity;
 
 import org.hamcrest.Description;

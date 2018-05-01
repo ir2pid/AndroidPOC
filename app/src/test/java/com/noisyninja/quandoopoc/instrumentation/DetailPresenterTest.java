@@ -1,6 +1,6 @@
 package com.noisyninja.quandoopoc.instrumentation;
 
-import com.noisyninja.quandoopoc.QuandooComponent;
+import com.noisyninja.quandoopoc.layers.di.QuandooComponent;
 import com.noisyninja.quandoopoc.model.Table;
 import com.noisyninja.quandoopoc.view.detail.DetailPresenter;
 import com.noisyninja.quandoopoc.view.interfaces.IDetailActivity;

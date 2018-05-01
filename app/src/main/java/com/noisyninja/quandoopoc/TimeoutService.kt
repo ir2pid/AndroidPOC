@@ -4,8 +4,9 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
-import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.layers.Utils
+import com.noisyninja.quandoopoc.layers.di.QuandooInjector
+import com.noisyninja.quandoopoc.layers.di.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.model.Table
 import java.util.*
 

@@ -1,13 +1,15 @@
 package com.noisyninja.quandoopoc.view.main
 
 import android.content.Intent
-import com.noisyninja.quandoopoc.QuandooComponent
-import com.noisyninja.quandoopoc.QuandooInjector.quandooApplication
+import com.noisyninja.quandoopoc.layers.di.QuandooComponent
+import com.noisyninja.quandoopoc.layers.di.QuandooInjector.quandooApplication
 import com.noisyninja.quandoopoc.layers.network.ICallback
 import com.noisyninja.quandoopoc.model.Customer
 import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 
 
 /**
@@ -31,24 +33,27 @@ public class MainPresenter internal constructor(private val iMainActivity: IMain
     override fun onSuccess(result: List<Customer>?) {
         if (result == null) {
             //quandooComponent.util().logI(MainPresenter::class.java, "null response")
-            iMainActivity?.setCustomers(null)
+            iMainActivity.setCustomers(null)
         } else {
             //quandooComponent.util().logI(MainPresenter::class.java, "got response")
-            iMainActivity?.setCustomers(ArrayList(result))
+            iMainActivity.setCustomers(ArrayList(result))
             quandooComponent?.database()?.insertAll(result)
         }
     }
 
     override fun onError(t: Throwable) {
-        quandooComponent?.database()?.all?.subscribe { list: List<Customer> ->
-            if (list.isEmpty()) {
-                //quandooComponent.util().logI(MainPresenter::class.java, "no local cache")
-                iMainActivity.setCustomers(null)
-            } else {
-                //quandooComponent.util().logI(MainPresenter::class.java, "got local cache")
-                iMainActivity.setCustomers(ArrayList(list))
-            }
-        }
+        quandooComponent?.database()?.all?.
+                subscribeOn(Schedulers.io())?.
+                observeOn(AndroidSchedulers.mainThread())?.
+                subscribe { list: List<Customer> ->
+                    if (list.isEmpty()) {
+                        //quandooComponent.util().logI(MainPresenter::class.java, "no local cache")
+                        iMainActivity.setCustomers(null)
+                    } else {
+                        //quandooComponent.util().logI(MainPresenter::class.java, "got local cache")
+                        iMainActivity.setCustomers(ArrayList(list))
+                    }
+                }
     }
 
 }
