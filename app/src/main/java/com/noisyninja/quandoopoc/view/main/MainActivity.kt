@@ -17,7 +17,6 @@ import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
@@ -46,11 +45,15 @@ class MainActivity : AppCompatActivity(), IMainActivity {
         }
     }
 
-    override fun setCustomers(result: ArrayList<Customer>) {
+    override fun setCustomers(result: ArrayList<Customer>?) {
         mResultList.clear()
-        mResultList.addAll(result)
-        recyclerList.post({ recyclerList.adapter.notifyDataSetChanged() })
-        handleShowError(false, null)
+        if (result != null) {
+            mResultList.addAll(result)
+            recyclerList.post({ recyclerList.adapter.notifyDataSetChanged() })
+            handleShowError(false, null)
+        } else {
+            handleShowError(true, Exception(quandooComponent.resources().getString(R.string.error_net)))
+        }
     }
 
     override fun openDetail(id: Int) {
@@ -62,17 +65,18 @@ class MainActivity : AppCompatActivity(), IMainActivity {
      * show an error message if loading fails
      */
     private fun handleShowError(isError: Boolean, t: Throwable?) {
+        runOnUiThread({
+            refresh_layout.isRefreshing = false
 
-        refresh_layout.isRefreshing = false
-
-        if (isError) {
-            recyclerList.visibility = GONE
-            recyclerText.visibility = VISIBLE
-            recyclerText.text = t?.message
-        } else {
-            recyclerList.visibility = VISIBLE
-            recyclerText.visibility = GONE
-        }
+            if (isError) {
+                recyclerList.visibility = GONE
+                recyclerText.visibility = VISIBLE
+                recyclerText.text = t?.message
+            } else {
+                recyclerList.visibility = VISIBLE
+                recyclerText.visibility = GONE
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -96,7 +100,7 @@ class MainActivity : AppCompatActivity(), IMainActivity {
     override fun onResume() {
         super.onResume()
         mIMainPresenter.getCustomers()
-        quandooComponent.database().all.observeOn(AndroidSchedulers.mainThread()).subscribeOn(Schedulers.io())
+        quandooComponent.database().all
                 .subscribe { list: List<Customer> ->
                     quandooComponent.util().logI(DetailActivity::class.java, list.toString())
                 }

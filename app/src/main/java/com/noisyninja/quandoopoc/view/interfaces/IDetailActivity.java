@@ -9,6 +9,6 @@ import java.util.ArrayList;
  */
 public interface IDetailActivity {
 
-    void setTables(ArrayList<Boolean> result);
+    void setTables(ArrayList<Table> result);
     void refresh();
 }

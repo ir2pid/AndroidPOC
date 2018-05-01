@@ -8,8 +8,6 @@ import com.noisyninja.quandoopoc.model.Customer
 import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
-import java.io.BufferedReader
-import java.io.InputStreamReader
 
 
 /**
@@ -31,31 +29,22 @@ class MainPresenter internal constructor(internal var iMainActivity: IMainActivi
     }
 
     override fun onSuccess(result: List<Customer>?) {
-        result?.let {
+        if (result == null) {
+            iMainActivity.setCustomers(null)
+        } else {
             iMainActivity.setCustomers(ArrayList(result))
             quandooComponent.database().insertAll(result)
         }
     }
 
     override fun onError(t: Throwable) {
-        //iMainActivity.setCustomers(getMock())
-    }
-
-    private fun getMock(): ArrayList<Customer> {
-        val buf = StringBuilder()
-        val json = quandooComponent.resources().assets.open("customer-list.json")
-        val input = BufferedReader(InputStreamReader(json, "UTF-8"))
-
-        var line = input.readLine()
-        while (line != null) {
-            buf.append(line)
-            line = input.readLine()
+        quandooComponent.database().all.subscribe { list: List<Customer> ->
+            if (list.isEmpty()) {
+                iMainActivity.setCustomers(null)
+            } else {
+                iMainActivity.setCustomers(ArrayList(list))
+            }
         }
-        input.close()
-
-        var customerList = quandooComponent.util().fromJson<ArrayList<Customer>>(buf.toString(), ArrayList<Customer>().javaClass)
-        return customerList
     }
-
 
 }

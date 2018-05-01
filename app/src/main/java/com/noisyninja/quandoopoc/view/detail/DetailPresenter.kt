@@ -34,12 +34,23 @@ class DetailPresenter internal constructor(private val iDetailActivity: IDetailA
 
     override fun onSuccess(result: List<Boolean>?) {
         result?.let {
-            iDetailActivity.setTables(ArrayList(result))
+            val arr = ArrayList<Table>()
+            for (b in result) {
+                arr.add(Table(b, -1))
+            }
+            quandooComponent.database().insertAllTable(arr)
+            iDetailActivity.setTables(arr)
         }
     }
 
     override fun onError(t: Throwable) {
-        //iMainActivity.setCustomers(getMock())
+        quandooComponent.database().allTable.subscribe { list: List<Table> ->
+            if (list.isEmpty()) {
+                iDetailActivity.setTables(null)
+            } else {
+                iDetailActivity.setTables(ArrayList(list))
+            }
+        }
     }
 
 }
