@@ -10,5 +10,6 @@ import java.util.ArrayList;
 public interface IMainActivity {
 
     void setCustomers(ArrayList<Customer> result);
+
     void openDetail(int id);
 }

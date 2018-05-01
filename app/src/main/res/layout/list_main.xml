@@ -34,9 +34,9 @@
                 android:background="@drawable/border"
                 android:contentDescription="@string/customer_thumbnail"
                 android:padding="@dimen/image_padding"
-                android:textSize="@dimen/text_size1"
                 android:text="@string/user"
                 android:textColor="@color/blue"
+                android:textSize="@dimen/text_size1"
                 app:srcCompat="@mipmap/ic_launcher" />
 
             <TextView

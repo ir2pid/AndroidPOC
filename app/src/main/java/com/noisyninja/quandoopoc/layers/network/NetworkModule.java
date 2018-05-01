@@ -24,6 +24,7 @@ public class NetworkModule {
     public void getCustomers(final ICallback iCallback) {
         getCustomerObservable().subscribeWith(getObserver(iCallback));
     }
+
     public void getTables(final ICallback iCallback) {
         getTableObservable().subscribeWith(getObserver(iCallback));
     }

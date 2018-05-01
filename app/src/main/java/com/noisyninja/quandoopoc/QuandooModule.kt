@@ -40,11 +40,11 @@ class QuandooModule(private val application: QuandooApp) {
     }
 
 
-        @Provides
-        @Singleton
-        fun provideDataBase(utilModule: UtilModule, application: QuandooApp): DataBaseModule {
-            return DataBaseModule(utilModule, application)
-        }
+    @Provides
+    @Singleton
+    fun provideDataBase(utilModule: UtilModule, application: QuandooApp): DataBaseModule {
+        return DataBaseModule(utilModule, application)
+    }
 
     @Provides
     @Singleton

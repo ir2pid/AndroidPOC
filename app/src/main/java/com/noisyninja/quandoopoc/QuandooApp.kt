@@ -1,6 +1,8 @@
 package com.noisyninja.quandoopoc
 
 import android.app.Application
+import android.content.Intent
+
 
 /**
  * Created by sudiptadutta on 27/04/18.
@@ -20,5 +22,8 @@ class QuandooApp : Application() {
         //quandooComponent!!.inject(this)
         QuandooInjector.setApplication(this)
         QuandooInjector.getQuandooComponent(this).inject(this)
+
+        val intent = Intent(this, TimeoutService::class.java)
+        startService(intent)
     }
 }

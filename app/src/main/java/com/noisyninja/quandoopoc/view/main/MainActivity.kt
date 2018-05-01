@@ -2,7 +2,6 @@ package com.noisyninja.quandoopoc.view.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
@@ -13,15 +12,15 @@ import android.widget.LinearLayout.VERTICAL
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
 import com.noisyninja.quandoopoc.model.Customer
+import com.noisyninja.quandoopoc.view.custom.BaseActivity
 import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
-import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
 
 
-class MainActivity : AppCompatActivity(), IMainActivity {
+class MainActivity : BaseActivity(), IMainActivity {
 
     private var mResultList: ArrayList<Customer> = ArrayList()
     private lateinit var mIMainPresenter: IMainPresenter

@@ -5,6 +5,7 @@ import com.noisyninja.quandoopoc.QuandooInjector.quandooApplication
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.layers.network.ICallback
 import com.noisyninja.quandoopoc.model.Customer
+import com.noisyninja.quandoopoc.view.custom.BaseActivity
 import com.noisyninja.quandoopoc.view.detail.DetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainActivity
 import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
@@ -30,8 +31,10 @@ class MainPresenter internal constructor(internal var iMainActivity: IMainActivi
 
     override fun onSuccess(result: List<Customer>?) {
         if (result == null) {
+            quandooComponent.util().logI(BaseActivity::class.java, "null response")
             iMainActivity.setCustomers(null)
         } else {
+            quandooComponent.util().logI(BaseActivity::class.java, "got response")
             iMainActivity.setCustomers(ArrayList(result))
             quandooComponent.database().insertAll(result)
         }
@@ -40,8 +43,10 @@ class MainPresenter internal constructor(internal var iMainActivity: IMainActivi
     override fun onError(t: Throwable) {
         quandooComponent.database().all.subscribe { list: List<Customer> ->
             if (list.isEmpty()) {
+                quandooComponent.util().logI(BaseActivity::class.java, "no local cache")
                 iMainActivity.setCustomers(null)
             } else {
+                quandooComponent.util().logI(BaseActivity::class.java, "got local cache")
                 iMainActivity.setCustomers(ArrayList(list))
             }
         }

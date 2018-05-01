@@ -3,7 +3,6 @@ package com.noisyninja.quandoopoc.view.detail
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
@@ -11,12 +10,13 @@ import android.widget.LinearLayout
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
 import com.noisyninja.quandoopoc.model.Table
+import com.noisyninja.quandoopoc.view.custom.BaseActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 
 
-class DetailActivity : AppCompatActivity(), IDetailActivity {
+class DetailActivity : BaseActivity(), IDetailActivity {
 
     private var mResultList: ArrayList<Table> = ArrayList()
     private lateinit var mIDetailPresenter: IDetailPresenter

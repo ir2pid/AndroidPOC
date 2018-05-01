@@ -13,8 +13,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onClick="done"
             android:background="@drawable/border"
+            android:onClick="done"
             android:orientation="vertical">
 
             <com.noisyninja.quandoopoc.view.custom.IconTextView

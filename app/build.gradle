@@ -24,6 +24,7 @@ android {
         buildConfigField "String", "CUSTOMER_URI", CONFIG("customer.uri")
         buildConfigField "String", "TABLE_URI", CONFIG("table.uri")
         buildConfigField "String", "APP_DB", CONFIG("app.db")
+        buildConfigField "String", "TIMER", CONFIG("timer")
     }
     buildTypes {
         release {

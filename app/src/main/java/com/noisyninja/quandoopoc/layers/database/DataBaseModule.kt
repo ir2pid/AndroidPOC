@@ -138,7 +138,6 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
 
     override fun deleteTable(table: Table?) {
         Completable.fromAction { mDataBase.databaseDao().deleteTable(table) } //non verbose short hand
-
     }
 
     override fun insertAllTable(tableList: List<Table>?) {
