@@ -6,6 +6,7 @@ import com.noisyninja.quandoopoc.layers.di.DaggerQuandooComponent
 import com.noisyninja.quandoopoc.layers.di.QuandooComponent
 import com.noisyninja.quandoopoc.layers.di.QuandooInjector
 import com.noisyninja.quandoopoc.layers.di.QuandooModule
+import com.noisyninja.quandoopoc.services.TimeoutService
 
 
 /**

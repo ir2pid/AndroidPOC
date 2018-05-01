@@ -1,9 +1,10 @@
-package com.noisyninja.quandoopoc
+package com.noisyninja.quandoopoc.services
 
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
+import com.noisyninja.quandoopoc.BuildConfig
 import com.noisyninja.quandoopoc.layers.Utils
 import com.noisyninja.quandoopoc.layers.di.QuandooInjector
 import com.noisyninja.quandoopoc.layers.di.QuandooInjector.quandooComponent
@@ -69,13 +70,4 @@ class TimeoutService : Service() {
         }
     }
 
-    /*
-    private static final Handler toastHandler = new Handler()
-    {
-        @Override
-        public void handleMessage(Message msg)
-        {
-            Toast.makeText(getApplicationContext(), "test", Toast.LENGTH_SHORT).show();
-        }
-    };*/
 }
