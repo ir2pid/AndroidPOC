@@ -97,6 +97,8 @@ dependencies {
     androidTestCompile "com.android.support.test.espresso:espresso-core:$rootProject.espressoVersion"
     androidTestCompile "com.android.support.test.espresso:espresso-intents:$rootProject.espressoVersion"
 
+    testImplementation "org.mockito:mockito-all:1.10.19"
+    testImplementation "org.robolectric:robolectric:3.6.1"
 
     androidTestCompile("com.android.support.test.espresso:espresso-contrib:$rootProject.espressoContribVersion") {
         exclude group: 'com.android.support', module: 'appcompat'

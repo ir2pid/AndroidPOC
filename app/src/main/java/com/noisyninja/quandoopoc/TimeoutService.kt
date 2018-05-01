@@ -6,7 +6,6 @@ import android.content.Intent
 import android.os.IBinder
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.layers.Utils
-import com.noisyninja.quandoopoc.layers.database.DataBaseModule
 import com.noisyninja.quandoopoc.model.Table
 import java.util.*
 
@@ -49,7 +48,6 @@ class TimeoutService : Service() {
 
     private inner class Task : TimerTask() {
         override fun run() {
-            Utils.logI(TimeoutService::class.java, "reset reservations!")
 
             QuandooInjector.quandooComponent.util().logI(TimeoutService::class.java, "resetting reservations timeout")
             QuandooInjector.quandooComponent.database().allTable.subscribe { list: List<Table> ->
@@ -59,7 +57,6 @@ class TimeoutService : Service() {
                         table.customerID = -1
                     }
 
-                    quandooComponent.util().logI(DataBaseModule::class.java, "inserting..")
                     quandooComponent.database().insertAllTable(list)
 
                     val intent = Intent()

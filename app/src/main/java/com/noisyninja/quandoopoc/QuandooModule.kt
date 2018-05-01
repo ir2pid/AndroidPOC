@@ -29,7 +29,7 @@ class QuandooModule(private val application: QuandooApp) {
 
     @Provides
     @Singleton
-    fun provideHttpClientT(): HttpClient {
+    fun provideHttpClient(): HttpClient {
         return HttpClient()
     }
 

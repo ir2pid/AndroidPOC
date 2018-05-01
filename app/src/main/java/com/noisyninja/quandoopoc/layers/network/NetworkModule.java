@@ -14,8 +14,7 @@ import io.reactivex.schedulers.Schedulers;
  */
 
 public class NetworkModule {
-
-    private HttpClient mHttpClient;
+    HttpClient mHttpClient;
 
     public NetworkModule(HttpClient httpClient) {
         mHttpClient = httpClient;

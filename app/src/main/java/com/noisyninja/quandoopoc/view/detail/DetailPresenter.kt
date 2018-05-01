@@ -13,12 +13,12 @@ import io.reactivex.schedulers.Schedulers
  * Created by sudiptadutta on 28/04/18.
  */
 
-class DetailPresenter internal constructor(private val iDetailActivity: IDetailActivity, private val customerID: Int) : IDetailPresenter, ICallback<List<Boolean>> {
+public class DetailPresenter internal constructor(private val iDetailActivity: IDetailActivity, private val customerID: Int) : IDetailPresenter, ICallback<List<Boolean>> {
 
     override fun setBookMarked(view: View?, table: Table) {
         if ((table.isOccupied && table.customerID == -1)
                 || (table.customerID != -1 && table.customerID != customerID)) {
-            quandooComponent.util().logI(DetailPresenter::class.java, "already booked from server, or another reservation")
+            quandooComponent.util().logI(DetailPresenter::class.java, "already booked, released by 15 mins")
             quandooComponent.util().toast(view?.context, quandooComponent.resources().getString(R.string.error_book))
             return
         }
@@ -35,10 +35,10 @@ class DetailPresenter internal constructor(private val iDetailActivity: IDetailA
                 .subscribe { list: List<Table> ->
                     if (list.isEmpty()) {//call only once
                         quandooComponent.network().getTables(this)
-                        quandooComponent.util().logI(DetailActivity::class.java, "web call for once" + list.toString())
+                        quandooComponent.util().logI(DetailPresenter::class.java, "web call for once" + list.toString())
                     } else {
                         iDetailActivity.setTables(ArrayList(list))
-                        quandooComponent.util().logI(DetailActivity::class.java, "local" + list.toString())
+                        quandooComponent.util().logI(DetailPresenter::class.java, "local" + list.toString())
                     }
                 }
     }

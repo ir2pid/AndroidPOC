@@ -14,7 +14,7 @@ import com.noisyninja.quandoopoc.view.interfaces.IMainPresenter
  * Created by sudiptadutta on 28/04/18.
  */
 
-class MainPresenter internal constructor(internal var iMainActivity: IMainActivity) : IMainPresenter, ICallback<List<Customer>> {
+public class MainPresenter internal constructor(internal var iMainActivity: IMainActivity) : IMainPresenter, ICallback<List<Customer>> {
 
     override fun getCustomers() {
         quandooComponent.network().getCustomers(this)
@@ -30,10 +30,10 @@ class MainPresenter internal constructor(internal var iMainActivity: IMainActivi
 
     override fun onSuccess(result: List<Customer>?) {
         if (result == null) {
-            quandooComponent.util().logI(MainPresenter::class.java, "null response")
+            //quandooComponent.util().logI(MainPresenter::class.java, "null response")
             iMainActivity.setCustomers(null)
         } else {
-            quandooComponent.util().logI(MainPresenter::class.java, "got response")
+            //quandooComponent.util().logI(MainPresenter::class.java, "got response")
             iMainActivity.setCustomers(ArrayList(result))
             quandooComponent.database().insertAll(result)
         }
@@ -42,10 +42,10 @@ class MainPresenter internal constructor(internal var iMainActivity: IMainActivi
     override fun onError(t: Throwable) {
         quandooComponent.database().all.subscribe { list: List<Customer> ->
             if (list.isEmpty()) {
-                quandooComponent.util().logI(MainPresenter::class.java, "no local cache")
+                //quandooComponent.util().logI(MainPresenter::class.java, "no local cache")
                 iMainActivity.setCustomers(null)
             } else {
-                quandooComponent.util().logI(MainPresenter::class.java, "got local cache")
+                //quandooComponent.util().logI(MainPresenter::class.java, "got local cache")
                 iMainActivity.setCustomers(ArrayList(list))
             }
         }
