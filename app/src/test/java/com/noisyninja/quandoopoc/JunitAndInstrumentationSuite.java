@@ -1,7 +1,7 @@
 package com.noisyninja.quandoopoc;
 
-import com.noisyninja.quandoopoc.instrumentation.DetailPresenterTest;
-import com.noisyninja.quandoopoc.instrumentation.MainPresenterTest;
+import com.noisyninja.quandoopoc.integration.DetailPresenterTest;
+import com.noisyninja.quandoopoc.integration.MainPresenterTest;
 import com.noisyninja.quandoopoc.junit.UnitTest;
 
 import org.junit.runner.RunWith;

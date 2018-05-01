@@ -1,4 +1,4 @@
-package com.noisyninja.quandoopoc.instrumentation;
+package com.noisyninja.quandoopoc.integration;
 
 import com.noisyninja.quandoopoc.layers.di.QuandooComponent;
 import com.noisyninja.quandoopoc.model.Table;
