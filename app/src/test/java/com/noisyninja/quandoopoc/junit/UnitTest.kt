@@ -1,4 +1,4 @@
-package com.noisyninja.quandoopoc
+package com.noisyninja.quandoopoc.junit
 
 import com.noisyninja.quandoopoc.layers.Utils
 import com.noisyninja.quandoopoc.model.Table
