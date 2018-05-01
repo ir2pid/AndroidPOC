@@ -127,11 +127,11 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
             override fun onSubscribe(d: Disposable) {}
 
             override fun onComplete() {
-                mUtilModule.logI(DataBaseModule::class.java, "insert done")
+                mUtilModule.logI(DataBaseModule::class.java, "insert table done")
             }
 
             override fun onError(e: Throwable) {
-                mUtilModule.logI(DataBaseModule::class.java, "insert error")
+                mUtilModule.logI(DataBaseModule::class.java, "insert table error")
             }
         })
     }
@@ -151,11 +151,11 @@ class DataBaseModule(internal var mUtilModule: UtilModule, context: Context) : D
             override fun onSubscribe(d: Disposable) {}
 
             override fun onComplete() {
-                mUtilModule.logI(DataBaseModule::class.java, "insert done")
+                mUtilModule.logI(DataBaseModule::class.java, "insert AllTable done")
             }
 
             override fun onError(e: Throwable) {
-                mUtilModule.logI(DataBaseModule::class.java, "insert error")
+                mUtilModule.logI(DataBaseModule::class.java, "insert AllTable error")
             }
         })
     }

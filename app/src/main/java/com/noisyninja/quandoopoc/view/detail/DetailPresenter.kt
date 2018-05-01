@@ -5,7 +5,6 @@ import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
 import com.noisyninja.quandoopoc.layers.network.ICallback
 import com.noisyninja.quandoopoc.model.Table
-import com.noisyninja.quandoopoc.view.custom.BaseActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailPresenter
 
@@ -30,7 +29,17 @@ class DetailPresenter internal constructor(private val iDetailActivity: IDetailA
     }
 
     override fun getTables() {
-        quandooComponent.network().getTables(this)
+
+        quandooComponent.database().allTable
+                .subscribe { list: List<Table> ->
+                    if (list.isEmpty()) {//call only once
+                        quandooComponent.network().getTables(this)
+                        quandooComponent.util().logI(DetailActivity::class.java, "web call for once" + list.toString())
+                    } else {
+                        iDetailActivity.setTables(ArrayList(list))
+                        quandooComponent.util().logI(DetailActivity::class.java, "local" + list.toString())
+                    }
+                }
     }
 
     override fun onSuccess(result: List<Boolean>?) {
@@ -47,10 +56,10 @@ class DetailPresenter internal constructor(private val iDetailActivity: IDetailA
     override fun onError(t: Throwable) {
         quandooComponent.database().allTable.subscribe { list: List<Table> ->
             if (list.isEmpty()) {
-                quandooComponent.util().logI(BaseActivity::class.java, "no local cache")
+                quandooComponent.util().logI(DetailPresenter::class.java, "no local cache")
                 iDetailActivity.setTables(null)
             } else {
-                quandooComponent.util().logI(BaseActivity::class.java, "got local cache")
+                quandooComponent.util().logI(DetailPresenter::class.java, "got local cache")
                 iDetailActivity.setTables(ArrayList(list))
             }
         }

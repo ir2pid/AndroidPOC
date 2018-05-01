@@ -1,25 +1,30 @@
 package com.noisyninja.quandoopoc.view.detail
 
 import android.app.Activity
+import android.content.BroadcastReceiver
+import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.GridLayoutManager
 import android.view.View
 import android.widget.LinearLayout
+import com.noisyninja.quandoopoc.BuildConfig
 import com.noisyninja.quandoopoc.QuandooInjector.quandooComponent
 import com.noisyninja.quandoopoc.R
 import com.noisyninja.quandoopoc.model.Table
-import com.noisyninja.quandoopoc.view.custom.BaseActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailActivity
 import com.noisyninja.quandoopoc.view.interfaces.IDetailPresenter
 import kotlinx.android.synthetic.main.activity_detail.*
 
 
-class DetailActivity : BaseActivity(), IDetailActivity {
+class DetailActivity : AppCompatActivity(), IDetailActivity {
 
     private var mResultList: ArrayList<Table> = ArrayList()
     private lateinit var mIDetailPresenter: IDetailPresenter
+    private lateinit var mReceiver: BroadcastReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,16 +35,6 @@ class DetailActivity : BaseActivity(), IDetailActivity {
 
         setupUI()
 
-        quandooComponent.database().allTable
-                .subscribe { list: List<Table> ->
-                    if (list.isEmpty()) {//call only once
-                        mIDetailPresenter.getTables()
-                        quandooComponent.util().logI(DetailActivity::class.java, "web" + list.toString())
-                    } else {
-                        setTables(ArrayList(list))
-                        quandooComponent.util().logI(DetailActivity::class.java, "local" + list.toString())
-                    }
-                }
     }
 
     private fun setupUI() {
@@ -66,6 +61,7 @@ class DetailActivity : BaseActivity(), IDetailActivity {
     }
 
     override fun refresh() {
+        quandooComponent.util().logI(DetailActivity::class.java, "refresh tables")
         recyclerListDetail.adapter.notifyDataSetChanged()
     }
 
@@ -94,5 +90,18 @@ class DetailActivity : BaseActivity(), IDetailActivity {
 
     override fun onResume() {
         super.onResume()
+        mReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                runOnUiThread { refresh() }
+            }
+        }
+        registerReceiver(this.mReceiver, IntentFilter(BuildConfig.APPLICATION_ID))
+
+        mIDetailPresenter.getTables()
+    }
+
+    override fun onPause() {
+        unregisterReceiver(mReceiver);
+        super.onPause()
     }
 }

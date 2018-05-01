@@ -3,7 +3,7 @@
     package="com.noisyninja.quandoopoc">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.BROADCAST" />
 
     <application
         android:name=".QuandooApp"
@@ -29,6 +29,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service android:name=".TimeoutService" />
+        <!--
+                <receiver
+                    android:name=".Receiver"
+                    android:enabled="true"
+                    android:exported="true">
+                    <intent-filter>
+                        <action android:name="@string/app_name" />
+                    </intent-filter>
+                </receiver>-->
     </application>
-
 </manifest>
